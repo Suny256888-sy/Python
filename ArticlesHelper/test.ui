@@ -27,7 +27,7 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string/>
+     <string>请输入DOI</string>
     </property>
    </widget>
    <widget class="QPushButton" name="dlbutton">
