@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 
 def init():
     # 判断目录
-    path = Path('ArticlesHelper/articles/')
+    path = Path('./articles/')
     if path.is_dir() is False:
         os.mkdir(path)
 
@@ -21,13 +21,14 @@ def downloadfile(name, doi, url):
         pdf = requests.get(url)
         # 保存文件
         if pdf.status_code == 200:
-            with open('ArticlesHelper/articles/' + name, 'wb') as f:
+            with open('./articles/' + name, 'wb') as f:
                 f.write(pdf.content)
             table = Table(show_header=True, header_style="bold magenta")
             table.add_column("文件名")
             table.add_column("状态")
             table.add_row(name, '[bold green]下载完成[/bold green]')
             console.print(table)
+            return True
         else:
             table = Table(show_header=True, header_style="bold magenta")
             table.add_column("文件名")
@@ -35,12 +36,14 @@ def downloadfile(name, doi, url):
             table.add_row(doi, '[bold red]下载失败[/bold red]')
             console.print(table)
             print(pdf)
+            return False
     except (Exception):
         table = Table(show_header=True, header_style="bold magenta")
         table.add_column("文件名")
         table.add_column("状态")
         table.add_row(name, '[bold red]下载文件出错啦[/bold red]')
         console.print(table)
+        return False
 
 
 def stwgetdllink(name):
@@ -100,7 +103,10 @@ if __name__ == "__main__":
     print('保存文件名：' + filename)
     dllink = stwgetdllink(filename)
     if dllink is not None:
-        downloadfile(filename, doi, dllink)
+        if downloadfile(filename, doi, dllink) is False:
+            dllink = lbggetdllink(filename)
+            if dllink is not None:
+                downloadfile(filename, doi, dllink)
     else:
         dllink = lbggetdllink(filename)
         if dllink is not None:
