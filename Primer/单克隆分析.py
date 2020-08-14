@@ -3,7 +3,6 @@
 
 import pyperclip
 import os
-import re
 
 
 def KMP(A, P):  # O(M+N)
