@@ -1,3 +1,7 @@
+"""
+A rudimentary URL downloader (like wget or curl) to demonstrate Rich progress bars.
+"""
+
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial
 import os.path
@@ -14,7 +18,6 @@ from rich.progress import (
     Progress,
     TaskID,
 )
-
 
 progress = Progress(
     TextColumn("[bold blue]{task.fields[filename]}", justify="right"),
@@ -48,13 +51,15 @@ def download(urls: Iterable[str], dest_dir: str):
             for url in urls:
                 filename = url.split("/")[-1]
                 dest_path = os.path.join(dest_dir, filename)
-                task_id = progress.add_task("download", filename=filename, start=False)
+                task_id = progress.add_task("download",
+                                            filename=filename,
+                                            start=False)
                 pool.submit(copy_url, task_id, url, dest_path)
 
 
 if __name__ == "__main__":
     # Try with https://releases.ubuntu.com/20.04/ubuntu-20.04-desktop-amd64.iso
     if sys.argv[1:]:
-        download(sys.argv[url:'https://releases.ubuntu.com/20.04/ubuntu-20.04-desktop-amd64.iso'], "./")
+        download(sys.argv[1:], "./")
     else:
         print("Usage:\n\tpython downloader.py URL1 URL2 URL3 (etc)")
