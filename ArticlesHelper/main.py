@@ -17,6 +17,8 @@ def init():
 
 
 def downloadfile(name, doi, url):
+    if url is None:
+        return False
     try:
         pdf = requests.get(url)
         # 保存文件
@@ -94,6 +96,12 @@ def lbggetdllink(name):
         return None
 
 
+def continuousdl(name, doi):
+    if downloadfile(name, doi, stwgetdllink(name)) is False:
+        downloadfile(name, doi, lbggetdllink(name))
+
+
+
 if __name__ == "__main__":
     init()
     console = Console()
@@ -101,14 +109,5 @@ if __name__ == "__main__":
     filename = doi.replace('/', '_') + '.pdf'
     print('DOI：' + doi)
     print('保存文件名：' + filename)
-    dllink = stwgetdllink(filename)
-    if dllink is not None:
-        if downloadfile(filename, doi, dllink) is False:
-            dllink = lbggetdllink(filename)
-            if dllink is not None:
-                downloadfile(filename, doi, dllink)
-    else:
-        dllink = lbggetdllink(filename)
-        if dllink is not None:
-            downloadfile(filename, doi, dllink)
+    continuousdl(filename, doi)
 input('按任意键退出')
