@@ -3,10 +3,39 @@ import os
 import re
 from rich.console import Console
 from rich import print
-# from rich.table import Column
 from rich.table import Table
 from pathlib import Path
 from bs4 import BeautifulSoup
+from urllib.request import urlopen
+from tqdm import tqdm
+
+
+def download_from_url(url, dst):
+    """
+    @param: url to download file
+    @param: dst place to put the file
+    """
+    file_size = int(urlopen(url).info().get('Content-Length', -1))
+    if os.path.exists(dst):
+        first_byte = os.path.getsize(dst)
+    else:
+        first_byte = 0
+    if first_byte >= file_size:
+        return file_size
+    header = {"Range": "bytes=%s-%s" % (first_byte, file_size)}
+    pbar = tqdm(total=file_size,
+                initial=first_byte,
+                unit='B',
+                unit_scale=True,
+                desc=url.split('/')[-1])
+    req = requests.get(url, headers=header, stream=True)
+    with (open(dst, 'ab')) as f:
+        for chunk in req.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+                pbar.update(1024)
+    pbar.close()
+    return file_size
 
 
 def init():
@@ -20,25 +49,14 @@ def downloadfile(name, doi, url):
     if url is None:
         return False
     try:
-        pdf = requests.get(url)
         # 保存文件
-        if pdf.status_code == 200:
-            with open('./articles/' + name, 'wb') as f:
-                f.write(pdf.content)
-            table = Table(show_header=True, header_style="bold magenta")
-            table.add_column("文件名")
-            table.add_column("状态")
-            table.add_row(name, '[bold green]下载完成[/bold green]')
-            console.print(table)
-            return True
-        else:
-            table = Table(show_header=True, header_style="bold magenta")
-            table.add_column("文件名")
-            table.add_column("状态")
-            table.add_row(doi, '[bold red]下载失败[/bold red]')
-            console.print(table)
-            print(pdf)
-            return False
+        download_from_url(url, "./articles/" + name)
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column("文件名")
+        table.add_column("状态")
+        table.add_row(name, '[bold green]下载完成[/bold green]')
+        console.print(table)
+        return True
     except (Exception):
         table = Table(show_header=True, header_style="bold magenta")
         table.add_column("文件名")
@@ -52,7 +70,6 @@ def stwgetdllink(name, doi):
     try:
         hostlink = 'https://sci-hub.tw/'
         link = hostlink + doi
-        print('请求链接：' + link)
         data = requests.get(link)
         # 获取下载链接
         html = data.text
@@ -72,13 +89,13 @@ def stwgetdllink(name, doi):
         table.add_column("状态")
         table.add_row(name, '[bold red]未找到文献[/bold red]')
         console.print(table)
+        return None
 
 
-def simgetdllink(name, doi):
+def ssegetdllink(name, doi):
     try:
-        hostlink = 'https://sci-hub.im/'
+        hostlink = 'https://sci-hub.se/'
         link = hostlink + doi
-        print('请求链接：' + link)
         data = requests.get(link)
         # 获取下载链接
         html = data.text
@@ -98,13 +115,13 @@ def simgetdllink(name, doi):
         table.add_column("状态")
         table.add_row(name, '[bold red]未找到文献[/bold red]')
         console.print(table)
+        return None
 
 
 def lbggetdllink(name, doi):
     try:
         hostlink = 'https://libgen.lc/scimag/ads.php?doi='
         link = hostlink + doi
-        print('请求链接：' + link)
         data = requests.get(link)
         # 获取下载链接
         html = data.text
@@ -123,17 +140,16 @@ def lbggetdllink(name, doi):
 
 
 def continuousdl(name, doi, i):
-    print((i + 1) % 3)
     if (i + 1) % 3 == 1:
         if downloadfile(name, doi, stwgetdllink(name, doi)) is False:
             if downloadfile(name, doi, lbggetdllink(name, doi)) is False:
-                downloadfile(name, doi, simgetdllink(name, doi))
+                downloadfile(name, doi, ssegetdllink(name, doi))
     elif (i + 1) % 3 == 2:
         if downloadfile(name, doi, lbggetdllink(name, doi)) is False:
-            if downloadfile(name, doi, simgetdllink(name, doi)) is False:
+            if downloadfile(name, doi, ssegetdllink(name, doi)) is False:
                 downloadfile(name, doi, stwgetdllink(name, doi))
     else:
-        if downloadfile(name, doi, simgetdllink(name, doi)) is False:
+        if downloadfile(name, doi, ssegetdllink(name, doi)) is False:
             if downloadfile(name, doi, lbggetdllink(name, doi)) is False:
                 downloadfile(name, doi, stwgetdllink(name, doi))
 
@@ -147,7 +163,6 @@ if __name__ == "__main__":
     print(dois)
     for index, value in enumerate(dois):
         filename = value.replace('/', '_') + '.pdf'
-        print('DOI：' + value)
         print('保存文件名：' + filename)
         continuousdl(filename, value, index)
     input('按任意键退出')

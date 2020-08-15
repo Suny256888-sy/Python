@@ -1,5 +1,6 @@
 """
-A rudimentary URL downloader (like wget or curl) to demonstrate Rich progress bars.
+A rudimentary URL downloader (like wget or curl) 
+to demonstrate Rich progress bars.
 """
 
 from concurrent.futures import ThreadPoolExecutor

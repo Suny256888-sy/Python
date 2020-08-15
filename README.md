@@ -11,3 +11,6 @@
 3.批量下载  
 4.自动交替请求下载  
 5.下载失败自动更换地址  
+
+### 特别感谢：
+[@rich](https://github.com/willmcgugan/rich)
