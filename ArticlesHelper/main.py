@@ -48,7 +48,7 @@ def downloadfile(name, doi, url):
         return False
 
 
-def stwgetdllink(name):
+def stwgetdllink(name, doi):
     try:
         hostlink = 'https://sci-hub.tw/'
         link = hostlink + doi
@@ -74,7 +74,7 @@ def stwgetdllink(name):
         console.print(table)
 
 
-def lbggetdllink(name):
+def lbggetdllink(name, doi):
     try:
         hostlink = 'https://libgen.lc/scimag/ads.php?doi='
         link = hostlink + doi
@@ -96,9 +96,13 @@ def lbggetdllink(name):
         return None
 
 
-def continuousdl(name, doi):
-    if downloadfile(name, doi, stwgetdllink(name)) is False:
-        downloadfile(name, doi, lbggetdllink(name))
+def continuousdl(name, doi, i):
+    if (i + 1) % 2 == 0:
+        if downloadfile(name, doi, stwgetdllink(name, doi)) is False:
+            downloadfile(name, doi, lbggetdllink(name, doi))
+    else:
+        if downloadfile(name, doi, lbggetdllink(name, doi)) is False:
+            downloadfile(name, doi, stwgetdllink(name, doi))
 
 
 if __name__ == "__main__":
@@ -108,9 +112,9 @@ if __name__ == "__main__":
     doi = input('若为多个请用英文逗号分隔：')
     dois = list(doi.split(','))
     print(dois)
-    for doi in dois:
-        filename = doi.replace('/', '_') + '.pdf'
-        print('DOI：' + doi)
+    for index, value in enumerate(dois):
+        filename = value.replace('/', '_') + '.pdf'
+        print('DOI：' + value)
         print('保存文件名：' + filename)
-        continuousdl(filename, doi)
+        continuousdl(filename, value, index)
     input('按任意键退出')
