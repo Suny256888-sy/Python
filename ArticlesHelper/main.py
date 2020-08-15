@@ -101,13 +101,16 @@ def continuousdl(name, doi):
         downloadfile(name, doi, lbggetdllink(name))
 
 
-
 if __name__ == "__main__":
     init()
     console = Console()
-    doi = input('请输入DOI：')
-    filename = doi.replace('/', '_') + '.pdf'
-    print('DOI：' + doi)
-    print('保存文件名：' + filename)
-    continuousdl(filename, doi)
-input('按任意键退出')
+    print('请输入DOI')
+    doi = input('若为多个请用英文逗号分隔：')
+    dois = list(doi.split(','))
+    print(dois)
+    for doi in dois:
+        filename = doi.replace('/', '_') + '.pdf'
+        print('DOI：' + doi)
+        print('保存文件名：' + filename)
+        continuousdl(filename, doi)
+    input('按任意键退出')
