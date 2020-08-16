@@ -2,6 +2,6 @@
   "releases": [
     { "version": 2.2, "details": "增加检测更新代码" },
     { "version": 2.1, "details": "优化提示信息" },
-    { "version": 2.0, "details": "1、使用更美观的进度条；\n2、实现批量下载" }
+    { "version": 2.0, "details": "1、使用更美观的进度条；2、实现批量下载" }
   ]
 }
