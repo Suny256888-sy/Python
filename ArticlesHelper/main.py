@@ -1,7 +1,6 @@
 import requests
 import os
 import re
-import json
 from rich.console import Console
 from rich import print
 from rich.table import Table
@@ -74,32 +73,21 @@ def init():
     urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/release.json'
     try:
         update = requests.get(urlgithub)
-        with open('./articles/versions.json', 'wb') as f:
-            f.write(update.content)
-        with open(file='./articles/versions.json', mode='r',
-                  encoding='utf-8') as f:
-            content = f.read()
-            ver = json.loads(content)
+        ver = update.json()
         if ver['releases'][0]['version'] > version:
-            print('文献下载助手[bold red]更新[/bold red]啦！\n最新版本是：' +
+            print('[bold yellow]更新[/bold yellow]啦！从GitHub获取更新详情成功！\n最新版本是：' +
                   str(ver['releases'][0]['version']))
-            print('更新内容是：' + ver['releases'][0]['details'] + '\n\n')
+            print('更新内容是：' + ver['releases'][0]['details'])
             print('可前往项目地址：https://github.com/evilbutcher/Python 查看Releases')
     except (Exception):
         urlgitee = 'https://gitee.com/evilbutcher/Python/raw/master/ArticlesHelper/release.json'
         try:
             update = requests.get(urlgitee)
-            with open('./articles/versions.json', 'wb') as f:
-                f.write(update.content)
-            with open(file='./articles/versions.json',
-                      mode='r',
-                      encoding='utf-8') as f:
-                content = f.read()
-                ver = json.loads(content)
+            ver = update.json()
             if ver['releases'][0]['version'] > version:
-                print('文献下载助手[bold red]更新[/bold red]啦！\n最新版本是：' +
+                print('[bold red]更新[/bold red]啦！从Gitee获取更新详情成功！\n最新版本是：' +
                       str(ver['releases'][0]['version']))
-                print('更新内容是：' + ver['releases'][0]['details'] + '\n\n')
+                print('更新内容是：' + ver['releases'][0]['details'])
                 print(
                     '可前往项目地址：https://github.com/evilbutcher/Python 查看Releases')
         except Exception as e:
