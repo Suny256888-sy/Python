@@ -61,41 +61,55 @@ def download(urls, dest_dir):
                                                 start=False)
                     pool.submit(copy_url, task_id, value, dest_path)
     except Exception as e:
-        print('出错啦，原因：' + str(e))
+        print('队列任务出错啦，原因：' + str(e))
 
 
 def parsehtml(name):
-    print('wait to write')
+    print('\n开始解析' + name)
+    try:
+        with open('./records/' + name, mode='r', encoding='utf-8') as f:
+            content = f.read()
+        parse = BeautifulSoup(content, 'html.parser')
+        for k in parse.find_all('td'):
+            # print(k.string)
+            if k.string == 'DI ':
+                dois.append(k.find_next_sibling().string)
+    except Exception as e:
+        print('解析过程出现错误，原因：' + str(e))
 
 
 def init():
     # 判断目录
     articlespath = Path('./articles/')
-    if articlespath.is_dir() is False:
-        os.mkdir(articlespath)
     recordpath = Path('./records/')
-    if recordpath.is_dir() is False:
-        os.mkdir(recordpath)
-    isexist = False
-    waitparse = []
-    for root, dirs, files in os.walk(recordpath):
-        if files is not None:
-            for file in files:
-                if re.search(r'.html', file):
-                    waitparse.append(file)
-                    print(os.path.join(root, file))
-                    isexist = True
-    if isexist is True:
-        if len(waitparse) == 1:
-            go = input('检测到html文件，是否尝试进行解析？(y/n)')
-            if go == 'y':
-                name = waitparse[0]
-                parsehtml(name)
-        else:
-            go = input('检测到多个html文件，是否尝试解析？(y/n)')
-            if go == 'y':
-                name = input('请输入要解析的记录名称')
-                parsehtml(name)
+    try:
+        if articlespath.is_dir() is False:
+            os.mkdir(articlespath)
+        if recordpath.is_dir() is False:
+            os.mkdir(recordpath)
+        isexist = False
+        waitparse = []
+        for root, dirs, files in os.walk(recordpath):
+            if files is not None:
+                for file in files:
+                    if re.search(r'.html', file):
+                        waitparse.append(file)
+                        print('发现[bold yellow]待解析[/bold yellow]文件：' +
+                              os.path.join(root, file))
+                        isexist = True
+        if isexist is True:
+            if len(waitparse) == 1:
+                go = input('\n是否尝试进行解析？(y/n)')
+                if go == 'y':
+                    name = waitparse[0]
+                    parsehtml(name)
+            else:
+                go = input('\n是否尝试解析？(y/n)')
+                if go == 'y':
+                    name = input('请输入要解析的记录名称')
+                    parsehtml(name)
+    except Exception as e:
+        print('获取目录出错啦，错误原因：' + str(e))
     version = 2.2
     urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/release.json'
     try:
@@ -227,15 +241,18 @@ def continuousgetlink(name, doi, i):
 
 
 if __name__ == "__main__":
-    init()
     console = Console()
-    print('\n特别感谢Rich项目 https://github.com/willmcgugan/rich \n作者@evilbutcher')
-    print('\n若为多篇文献请用[bold red]英文逗号[/bold red]分隔')
-    doi = input('请输入DOI：')
+    print('特别感谢Rich项目 https://github.com/willmcgugan/rich')
+    print('作者@evilbutcher\n')
+    dois = []
+    init()
+    if len(dois) == 0:
+        print('\n若为多篇文献请用[bold red]英文逗号[/bold red]分隔')
+        doi = input('请输入DOI：')
+        dois = list(doi.split(','))
     print('\n开始下载...')
-    print('\n[bold yellow]说明[/bold yellow]：提示文献未找到只是其中一个接口未找到文献，会自动更新接口获取下载地址')
-    dois = list(doi.split(','))
-    print('\n输入的doi为：')
+    print('\n[bold yellow]说明[/bold yellow]：提示文献未找到，只是一个接口未找到，会自动更换接口获取下载地址')
+    print('\ndoi为：')
     print(dois)
     urls = {}
     for index, value in enumerate(dois):
