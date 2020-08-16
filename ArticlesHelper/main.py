@@ -64,11 +64,38 @@ def download(urls, dest_dir):
         print('出错啦，原因：' + str(e))
 
 
+def parsehtml(name):
+    print('wait to write')
+
+
 def init():
     # 判断目录
-    path = Path('./articles/')
-    if path.is_dir() is False:
-        os.mkdir(path)
+    articlespath = Path('./articles/')
+    if articlespath.is_dir() is False:
+        os.mkdir(articlespath)
+    recordpath = Path('./records/')
+    if recordpath.is_dir() is False:
+        os.mkdir(recordpath)
+    isexist = False
+    waitparse = []
+    for root, dirs, files in os.walk(recordpath):
+        if files is not None:
+            for file in files:
+                if re.search(r'.html', file):
+                    waitparse.append(file)
+                    print(os.path.join(root, file))
+                    isexist = True
+    if isexist is True:
+        if len(waitparse) == 1:
+            go = input('检测到html文件，是否尝试进行解析？(y/n)')
+            if go == 'y':
+                name = waitparse[0]
+                parsehtml(name)
+        else:
+            go = input('检测到多个html文件，是否尝试解析？(y/n)')
+            if go == 'y':
+                name = input('请输入要解析的记录名称')
+                parsehtml(name)
     version = 2.2
     urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/release.json'
     try:
