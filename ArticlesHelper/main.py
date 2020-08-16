@@ -35,7 +35,6 @@ progress = Progress(
 
 def copy_url(task_id: TaskID, url: str, path: str) -> None:
     try:
-        print('\n下载进度')
         response = urlopen(url)
         # This will break if the response doesn't contain content length
         progress.update(task_id, total=int(response.info()["Content-length"]))
@@ -50,6 +49,7 @@ def copy_url(task_id: TaskID, url: str, path: str) -> None:
 
 def download(urls, dest_dir):
     try:
+        print('\n下载进度')
         with progress:
             with ThreadPoolExecutor(max_workers=4) as pool:
                 for key, value in urls.items():
@@ -121,7 +121,7 @@ def stwgetdllink(name, doi):
             postlink = 'https:' + pdflink
         else:
             postlink = pdflink
-        print('获取下载链接成功：' + postlink)
+        print('获取下载链接[bold green]成功[/bold green]：' + postlink)
         urls[doi] = postlink
         return True
     except Exception as e:
@@ -149,7 +149,7 @@ def ssegetdllink(name, doi):
             postlink = 'https:' + pdflink
         else:
             postlink = pdflink
-        print('获取下载链接成功：' + postlink)
+        print('获取下载链接[bold green]成功[/bold green]：' + postlink)
         urls[doi] = postlink
         return True
     except Exception as e:
@@ -173,7 +173,7 @@ def lbggetdllink(name, doi):
         afterhtml = BeautifulSoup(html, 'html.parser')
         div = afterhtml.find('a')
         pdflink = div.get('href')
-        print('获取下载链接成功：' + pdflink)
+        print('获取下载链接[bold green]成功[/bold green]：' + pdflink)
         urls[doi] = pdflink
         return True
     except Exception as e:
@@ -194,21 +194,21 @@ def continuousgetlink(name, doi, i):
             if lbggetdllink(name, doi) is False:
                 print('自动更换地址，重新获取...')
                 if ssegetdllink(name, doi) is False:
-                    print('很抱歉，此文献未找到')
+                    print('很抱歉，此文献[bold red]未找到[/bold red]')
     elif (i + 1) % 3 == 2:
         if lbggetdllink(name, doi) is False:
             print('自动更换地址，重新获取...')
             if ssegetdllink(name, doi) is False:
                 print('自动更换地址，重新获取...')
                 if stwgetdllink(name, doi) is False:
-                    print('很抱歉，此文献未找到')
+                    print('很抱歉，此文献[bold red]未找到[/bold red]')
     else:
         if ssegetdllink(name, doi) is False:
             print('自动更换地址，重新获取...')
             if lbggetdllink(name, doi) is False:
                 print('自动更换地址，重新获取...')
                 if stwgetdllink(name, doi) is False:
-                    print('很抱歉，此文献未找到')
+                    print('很抱歉，此文献[bold red]未找到[/bold red]')
 
 
 if __name__ == "__main__":
@@ -226,7 +226,7 @@ if __name__ == "__main__":
     for index, value in enumerate(dois):
         filename = value.replace('/', '_') + '.pdf'
         continuousgetlink(filename, value, index)
-    print('\n匹配下载链接[bold green]完成[/bold green]')
+    print('\n匹配下载链接[bold green]完成[/bold green]，None表示未能获取下载地址')
     print(urls)
     download(urls, './articles/')
     input('下载完成，如遇问题请前往 https://github.com/evilbutcher/Python 提出issue，按任意键退出')
