@@ -1,4 +1,3 @@
-
 *.pdf
 *.zip
 *.manifest
@@ -10,4 +9,4 @@
 *.pyz
 *.pkg
 *.exe
-articles/versions.json
+
