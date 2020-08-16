@@ -1,6 +1,7 @@
 import requests
 import os
 import re
+import json
 from rich.console import Console
 from rich import print
 from rich.table import Table
@@ -69,6 +70,41 @@ def init():
     path = Path('./articles/')
     if path.is_dir() is False:
         os.mkdir(path)
+    version = 2.2
+    urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/release.json'
+    try:
+        update = requests.get(urlgithub)
+        with open('./articles/versions.json', 'wb') as f:
+            f.write(update.content)
+        with open(file='./articles/versions.json', mode='r',
+                  encoding='utf-8') as f:
+            content = f.read()
+            ver = json.loads(content)
+        if ver['releases'][0]['version'] > version:
+            print('文献下载助手[bold red]更新[/bold red]啦！\n最新版本是：' +
+                  str(ver['releases'][0]['version']))
+            print('更新内容是：' + ver['releases'][0]['details'] + '\n\n')
+            print('可前往项目地址：https://github.com/evilbutcher/Python 查看Releases')
+    except (Exception):
+        urlgitee = 'https://gitee.com/evilbutcher/Python/raw/master/ArticlesHelper/release.json'
+        try:
+            update = requests.get(urlgitee)
+            with open('./articles/versions.json', 'wb') as f:
+                f.write(update.content)
+            with open(file='./articles/versions.json',
+                      mode='r',
+                      encoding='utf-8') as f:
+                content = f.read()
+                ver = json.loads(content)
+            if ver['releases'][0]['version'] > version:
+                print('文献下载助手[bold red]更新[/bold red]啦！\n最新版本是：' +
+                      str(ver['releases'][0]['version']))
+                print('更新内容是：' + ver['releases'][0]['details'] + '\n\n')
+                print(
+                    '可前往项目地址：https://github.com/evilbutcher/Python 查看Releases')
+        except Exception as e:
+            print('检测更新失败，原因：')
+            print(str(e))
 
 
 def stwgetdllink(name, doi):
@@ -178,8 +214,8 @@ def continuousgetlink(name, doi, i):
 if __name__ == "__main__":
     init()
     console = Console()
-    print('特别感谢rich项目 https://github.com/willmcgugan/rich \n作者@evilbutcher')
-    print('\n\n若为多篇文献请用[bold red]英文逗号[/bold red]分隔')
+    print('\n特别感谢Rich项目 https://github.com/willmcgugan/rich \n作者@evilbutcher')
+    print('\n若为多篇文献请用[bold red]英文逗号[/bold red]分隔')
     doi = input('请输入DOI：')
     print('\n开始下载...')
     print('\n[bold yellow]说明[/bold yellow]：提示文献未找到只是其中一个接口未找到文献，会自动更新接口获取下载地址')
