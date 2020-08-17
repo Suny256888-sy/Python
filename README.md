@@ -4,7 +4,34 @@
 一开始写了JavaScript版的[文献下载助手](https://github.com/evilbutcher/Code/tree/master/%E6%96%87%E7%8C%AE%E4%B8%8B%E8%BD%BD/%E6%96%87%E7%8C%AE%E4%B8%8B%E8%BD%BD%E5%8A%A9%E6%89%8B)，但这个只能在JSBox上运行，有一定的限制和门槛。
 时至今日，我终于捡起来Python，开始着手移植，一边移植一边学python...  
 ### 关于如何使用
-首先在[Releases](https://github.com/evilbutcher/Python/releases)中，下载最新的文献下载助手小程序.exe，首次运行，会在同级目录生成两个文件夹，一个是articles，用于存储下载的文献，另一个是records，用于存储下载的Web of Science文献记录。
+请前往[Releases](https://github.com/evilbutcher/Python/releases)
+for Windows:
+下载最新的文献下载助手小程序.exe。
+for Mac OS:
+因为没有Mac，所以提供了源码，请自行测试，用到的模块有：
+`<import requests>`
+`<import os>`
+`<import re>`
+`<from rich.console import Console>`
+`<from rich import print>`
+`<from rich.table import Table>`
+`<from pathlib import Path>`
+`<from bs4 import BeautifulSoup>`
+`<from concurrent.futures import ThreadPoolExecutor>`
+`<from functools import partial>`
+`<from urllib.request import urlopen>`
+`<from rich.progress import (>`
+    `<BarColumn,>`
+    `<DownloadColumn,>`
+    `<TextColumn,>`
+    `<TransferSpeedColumn,>`
+    `<TimeRemainingColumn,>`
+    `<Progress,>`
+    `<TaskID,>`
+`<)>`
+
+
+首次运行，会在同级目录生成两个文件夹，一个是articles，用于存储下载的文献，另一个是records，用于存储下载的Web of Science文献记录。
 #### 如何下载Web of Science文献记录
 请看演示
 ![Download record]()(有待施工)
