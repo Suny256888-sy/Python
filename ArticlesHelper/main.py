@@ -79,38 +79,8 @@ def parsehtml(name):
 
 
 def init():
-    # 判断目录
-    articlespath = Path('./articles/')
-    recordpath = Path('./records/')
-    try:
-        if articlespath.is_dir() is False:
-            os.mkdir(articlespath)
-        if recordpath.is_dir() is False:
-            os.mkdir(recordpath)
-        isexist = False
-        waitparse = []
-        for root, dirs, files in os.walk(recordpath):
-            if files is not None:
-                for file in files:
-                    if re.search(r'.html', file):
-                        waitparse.append(file)
-                        print('发现[bold yellow]待解析[/bold yellow]文件：' +
-                              os.path.join(root, file))
-                        isexist = True
-        if isexist is True:
-            if len(waitparse) == 1:
-                go = input('\n是否尝试进行解析？(y/n)')
-                if go == 'y':
-                    name = waitparse[0]
-                    parsehtml(name)
-            else:
-                go = input('\n是否尝试解析？(y/n)')
-                if go == 'y':
-                    name = input('请输入要解析的记录名称')
-                    parsehtml(name)
-    except Exception as e:
-        print('获取目录出错啦，错误原因：' + str(e))
-    version = 2.2
+    # 检测更新
+    version = 2.3
     urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/release.json'
     try:
         update = requests.get(urlgithub)
@@ -134,6 +104,38 @@ def init():
         except Exception as e:
             print('检测更新失败，原因：')
             print(str(e))
+    # 判断目录
+    articlespath = Path('articles/')
+    recordpath = Path('records/')
+    try:
+        if articlespath.is_dir() is False:
+            os.mkdir(articlespath)
+        if recordpath.is_dir() is False:
+            os.mkdir(recordpath)
+        isexist = False
+        waitparse = []
+        for root, dirs, files in os.walk(recordpath):
+            if files is not None:
+                for file in files:
+                    if re.search(r'.html', file):
+                        waitparse.append(file)
+                        print('发现[bold yellow]待解析[/bold yellow]文件：' +
+                              os.path.join(file))
+                        isexist = True
+        if isexist is True:
+            if len(waitparse) == 1:
+                go = input('\n是否尝试进行解析？(y/n)')
+                if go == 'y':
+                    name = waitparse[0]
+                    parsehtml(name)
+            else:
+                name = input('\n是否尝试解析？(请输入要解析的文件名称；不解析请输入n)')
+                if name == 'n':
+                    return
+                else:
+                    parsehtml(name)
+    except Exception as e:
+        print('获取目录出错啦，错误原因：' + str(e))
 
 
 def stwgetdllink(name, doi):
@@ -219,25 +221,49 @@ def lbggetdllink(name, doi):
 def continuousgetlink(name, doi, i):
     if (i + 1) % 3 == 1:
         if stwgetdllink(name, doi) is False:
-            print('自动更换地址，重新获取...')
+            print('自动更换地址[bold green]重新获取[/bold green]')
             if lbggetdllink(name, doi) is False:
-                print('自动更换地址，重新获取...')
+                print('自动更换地址[bold green]重新获取[/bold green]')
                 if ssegetdllink(name, doi) is False:
                     print('很抱歉，此文献[bold red]未找到[/bold red]')
     elif (i + 1) % 3 == 2:
         if lbggetdllink(name, doi) is False:
-            print('自动更换地址，重新获取...')
+            print('自动更换地址[bold green]重新获取[/bold green]')
             if ssegetdllink(name, doi) is False:
-                print('自动更换地址，重新获取...')
+                print('自动更换地址[bold green]重新获取[/bold green]')
                 if stwgetdllink(name, doi) is False:
                     print('很抱歉，此文献[bold red]未找到[/bold red]')
     else:
         if ssegetdllink(name, doi) is False:
-            print('自动更换地址，重新获取...')
+            print('自动更换地址[bold green]重新获取[/bold green]')
             if lbggetdllink(name, doi) is False:
-                print('自动更换地址，重新获取...')
+                print('自动更换地址[bold green]重新获取[/bold green]')
                 if stwgetdllink(name, doi) is False:
                     print('很抱歉，此文献[bold red]未找到[/bold red]')
+
+
+def checkdownload(dois):
+    redownload = []
+    dldois = []
+    for doi in dois:
+        doi.replace('_', '/')
+    articlespath = Path('articles/')
+    for root, dirs, files in os.walk(articlespath):
+        if len(files) != 0:
+            for file in files:
+                dldoi = file.replace('_', '/').replace('.pdf', '')
+                dldois.append(dldoi)
+            for doi in dois:
+                if (doi in dldois) is False:
+                    redownload.append(doi)
+            if len(redownload) != 0:
+                print('[bold yellow]部分下载完成[/bold yellow]，下载失败的doi为：')
+                print(redownload)
+            else:
+                print('恭喜！[bold green]全部下载完成[/bold green]')
+        else:
+            print(dois)
+            print('[bold red]全部下载失败[/bold red]，可稍后尝试下载或检查网络状况重新下载。')
 
 
 if __name__ == "__main__":
@@ -261,4 +287,5 @@ if __name__ == "__main__":
     print('\n匹配下载链接[bold green]完成[/bold green]，None表示未能获取下载地址')
     print(urls)
     download(urls, './articles/')
-    input('下载完成，如遇问题请前往 https://github.com/evilbutcher/Python 提出issue，按任意键退出')
+    checkdownload(dois)
+    input('如遇问题请前往 https://github.com/evilbutcher/Python 提出issue，按任意键退出')
