@@ -37,7 +37,7 @@ from rich.progress import (
 ![Download record](https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/How_to_Use/download_record.gif)
 #### 如何解析记录
 如果程序检测到在records中，存在.html格式的文件，就会自动将名称列出来，提示是否进行解析，输入 y 则会执行解析，n 则会返回手动输入doi号下载。
-如果存在records中存在个html文件，在输入 y 后，则需要输入要解析的html文件名称，例如 savedrecs.html。  
+如果存在records中存在个html文件，可直接输入全称如 savedrecs.html 进行解析，不解析请输入 n 。  
 ![Parse record](https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/How_to_Use/parse_records.gif)
 #### 如何手动下载
 直接输入doi号即可下载，多个doi请用英文逗号“,”进行分割，例如 10.1016/j.snb.2013.07.010,10.1016/j.snb.2010.12.010,10.1039/c5cs00424a。  
