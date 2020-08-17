@@ -124,7 +124,7 @@ def init():
                         isexist = True
         if isexist is True:
             if len(waitparse) == 1:
-                go = input('\n是否尝试进行解析？(y/n)')
+                go = input('\n是否尝试进行解析？(请输入y/n)')
                 if go == 'y':
                     name = waitparse[0]
                     parsehtml(name)
@@ -243,27 +243,30 @@ def continuousgetlink(name, doi, i):
 
 
 def checkdownload(dois):
-    redownload = []
-    dldois = []
-    for doi in dois:
-        doi.replace('_', '/')
-    articlespath = Path('articles/')
-    for root, dirs, files in os.walk(articlespath):
-        if len(files) != 0:
-            for file in files:
-                dldoi = file.replace('_', '/').replace('.pdf', '')
-                dldois.append(dldoi)
-            for doi in dois:
-                if (doi in dldois) is False:
-                    redownload.append(doi)
-            if len(redownload) != 0:
-                print('[bold yellow]部分下载完成[/bold yellow]，下载失败的doi为：')
-                print(redownload)
+    try:
+        redownload = []
+        dldois = []
+        for doi in dois:
+            doi.replace('_', '/')
+        articlespath = Path('articles/')
+        for root, dirs, files in os.walk(articlespath):
+            if len(files) == 0:
+                print(dois)
+                print('\n[bold red]全部下载失败[/bold red]，可稍后尝试下载或检查网络状况重新下载。')
             else:
-                print('恭喜！[bold green]全部下载完成[/bold green]')
-        else:
-            print(dois)
-            print('[bold red]全部下载失败[/bold red]，可稍后尝试下载或检查网络状况重新下载。')
+                for file in files:
+                    dldoi = file.replace('_', '/').replace('.pdf', '')
+                    dldois.append(dldoi)
+                for doi in dois:
+                    if (doi in dldois) is False:
+                        redownload.append(doi)
+                if len(redownload) != 0:
+                    print('\n[bold yellow]部分下载完成[/bold yellow]，下载失败的doi为：')
+                    print(redownload)
+                else:
+                    print('\n[bold green]全部下载完成[/bold green]，恭喜！')
+    except Exception as e:
+        print('检查下载情况出错啦，原因：' + str(e))
 
 
 if __name__ == "__main__":
@@ -288,4 +291,4 @@ if __name__ == "__main__":
     print(urls)
     download(urls, './articles/')
     checkdownload(dois)
-    input('如遇问题请前往 https://github.com/evilbutcher/Python 提出issue，按任意键退出')
+    input('如有问题请前往 https://github.com/evilbutcher/Python 提出issue，请按任意键退出')
