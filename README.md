@@ -54,7 +54,7 @@ from rich.progress import (
 5.下载失败自动更换地址  
 6.进度条  
 7.自动检测更新  
-8.解析Web of Science文献记录
+8.解析Web of Science文献记录  
 9.下载情况检查
 
 ### 特别感谢：
