@@ -34,7 +34,7 @@ from rich.progress import (
 首次运行，会在同级目录生成两个文件夹，一个是articles，用于存储下载的文献，另一个是records，用于存储下载的Web of Science文献记录。
 #### 如何下载Web of Science文献记录
 请看演示
-![Download record]()(有待施工)
+![Download record](https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/How_to_Use/download_record.gif)
 #### 如何解析记录
 如果程序检测到在records中，存在.html格式的文件，就会自动将名称列出来，提示是否进行解析，输入 y 则会执行解析，n 则会返回手动输入doi号下载。
 如果存在records中存在个html文件，在输入 y 后，则需要输入要解析的html文件名称，例如 savedrecs.html。
