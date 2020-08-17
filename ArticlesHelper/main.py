@@ -79,7 +79,7 @@ def parsehtml(name):
 
 
 def init():
-    # 检测更新
+    print('检测更新中...')
     version = 2.3
     urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/release.json'
     try:
@@ -90,6 +90,8 @@ def init():
                   str(ver['releases'][0]['version']))
             print('更新内容是：' + ver['releases'][0]['details'])
             print('可前往项目地址：https://github.com/evilbutcher/Python 查看Releases')
+        else:
+            print('检测更新完成，暂无更新')
     except (Exception):
         urlgitee = 'https://gitee.com/evilbutcher/Python/raw/master/ArticlesHelper/release.json'
         try:
@@ -101,6 +103,8 @@ def init():
                 print('更新内容是：' + ver['releases'][0]['details'])
                 print(
                     '可前往项目地址：https://github.com/evilbutcher/Python 查看Releases')
+            else:
+                print('检测更新完成，暂无更新')
         except Exception as e:
             print('检测更新失败，原因：')
             print(str(e))
@@ -272,7 +276,7 @@ def checkdownload(dois):
 if __name__ == "__main__":
     console = Console()
     print('特别感谢Rich项目 https://github.com/willmcgugan/rich')
-    print('作者@evilbutcher\n')
+    print('作者@evilbutcher')
     dois = []
     init()
     if len(dois) == 0:
