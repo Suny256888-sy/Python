@@ -5,9 +5,9 @@
 时至今日，我终于捡起来Python，开始着手移植，一边移植一边学python...  
 ### 关于如何使用
 请前往[Releases](https://github.com/evilbutcher/Python/releases)
-for Windows:
-下载最新的文献下载助手小程序.exe。
-for Mac OS:
+for Windows:  
+下载最新的文献下载助手小程序.exe。  
+for Mac OS:  
 因为没有Mac，所以提供了源码，请自行测试，用到的模块有：
 ```python
 import requests
