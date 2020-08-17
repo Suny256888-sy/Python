@@ -45,6 +45,8 @@ from rich.progress import (
 #### 自动检测更新
 如果有更新，软件会自动弹出更新提示，可前往[Releases](https://github.com/evilbutcher/Python/releases)地址进行更新。  
 ![Check update](https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/How_to_Use/check_update.gif)
+#### 进度条展示
+![Progress](https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/How_to_Use/progress.jpg)
 
 ### 现已支持
 1.根据doi进行文献下载和保存  
