@@ -123,7 +123,7 @@ def init():
                 for file in files:
                     if re.search(r'.html', file):
                         waitparse.append(file)
-                        print('发现[bold yellow]待解析[/bold yellow]文件：' +
+                        print('\n发现[bold yellow]待解析[/bold yellow]文件：' +
                               os.path.join(file))
                         isexist = True
         if isexist is True:

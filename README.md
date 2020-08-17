@@ -43,7 +43,7 @@ from rich.progress import (
 直接输入doi号即可下载，多个doi请用英文逗号“,”进行分割，例如 10.1016/j.snb.2013.07.010,10.1016/j.snb.2010.12.010,10.1039/c5cs00424a。  
 ![Download manually](https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/How_to_Use/download_manually.gif)
 #### 自动检测更新
-如果要更新，软件会自动弹出更新提示，可前往[Releases](https://github.com/evilbutcher/Python/releases)地址进行更新。  
+如果有更新，软件会自动弹出更新提示，可前往[Releases](https://github.com/evilbutcher/Python/releases)地址进行更新。  
 ![Check update](https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/How_to_Use/check_update.gif)
 
 ### 现已支持
