@@ -9,28 +9,28 @@ for Windows:
 下载最新的文献下载助手小程序.exe。
 for Mac OS:
 因为没有Mac，所以提供了源码，请自行测试，用到的模块有：
-`<import requests>`
-`<import os>`
-`<import re>`
-`<from rich.console import Console>`
-`<from rich import print>`
-`<from rich.table import Table>`
-`<from pathlib import Path>`
-`<from bs4 import BeautifulSoup>`
-`<from concurrent.futures import ThreadPoolExecutor>`
-`<from functools import partial>`
-`<from urllib.request import urlopen>`
-`<from rich.progress import (>`
-    `<BarColumn,>`
-    `<DownloadColumn,>`
-    `<TextColumn,>`
-    `<TransferSpeedColumn,>`
-    `<TimeRemainingColumn,>`
-    `<Progress,>`
-    `<TaskID,>`
-`<)>`
-
-
+```python
+import requests
+import os
+import re
+from rich.console import Console
+from rich import print
+from rich.table import Table
+from pathlib import Path
+from bs4 import BeautifulSoup
+from concurrent.futures import ThreadPoolExecutor
+from functools import partial
+from urllib.request import urlopen
+from rich.progress import (
+    BarColumn,
+    DownloadColumn,
+    TextColumn,
+    TransferSpeedColumn,
+    TimeRemainingColumn,
+    Progress,
+    TaskID,
+)
+```
 首次运行，会在同级目录生成两个文件夹，一个是articles，用于存储下载的文献，另一个是records，用于存储下载的Web of Science文献记录。
 #### 如何下载Web of Science文献记录
 请看演示
