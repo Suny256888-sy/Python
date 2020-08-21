@@ -1,5 +1,6 @@
 {
   "releases": [
+    { "version": 2.4, "details": "增加下载接口至5个" },
     { "version": 2.3, "details": "增加Web of Science文献记录解析；增加下载情况判断" },
     { "version": 2.2, "details": "增加检测更新代码" },
     { "version": 2.1, "details": "优化提示信息" },
