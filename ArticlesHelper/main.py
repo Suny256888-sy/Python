@@ -80,7 +80,7 @@ def parsehtml(name):
 
 def init():
     print('检测更新中...')
-    version = 2.3
+    version = 2.4
     urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/release.json'
     try:
         update = requests.get(urlgithub)
