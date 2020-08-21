@@ -3,7 +3,7 @@
 # [文献下载小程序](https://github.com/evilbutcher/Python/tree/master/ArticlesHelper)
 一开始写了JavaScript版的[文献下载助手](https://github.com/evilbutcher/Code/tree/master/%E6%96%87%E7%8C%AE%E4%B8%8B%E8%BD%BD/%E6%96%87%E7%8C%AE%E4%B8%8B%E8%BD%BD%E5%8A%A9%E6%89%8B)，但这个只能在JSBox上运行，有一定的限制和门槛。
 时至今日，我终于捡起来Python，开始着手移植，一边移植一边学python...  
-如果下载速度太慢推荐"加速器"：[GLaDOS](https://github.com/glados-network/GLaDOS) 邀请码：3JRG4-KSGZJ-8QPXF-8PPOO
+#### 如果实际使用下载速度太慢推荐"加速器"：[GLaDOS](https://github.com/glados-network/GLaDOS) 邀请码：3JRG4-KSGZJ-8QPXF-8PPOO
 ### 关于如何使用
 请前往[Releases](https://github.com/evilbutcher/Python/releases)  
 For Windows:  
