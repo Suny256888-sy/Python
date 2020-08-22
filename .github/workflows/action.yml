@@ -28,8 +28,6 @@ jobs:
         dst: gitee/Python
         # 用于目的端上传代码的SSH key，用于上传代码
         dst_key: ${{ secrets.GITEE_PRIVATE_SSH_KEY }}
-        # 创建仓库的API tokens， 用于自动创建不存在的仓库
-        dst_token: ${{ secrets.GITEE_PRIVATE_TOKEN }}
         # 强制更新
         force_update: true
         # clone方式，使用http、ssh方式进行clone
