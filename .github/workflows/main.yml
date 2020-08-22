@@ -18,13 +18,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Cache Python src repos
-      # 引用发行版的主要版本
-      uses: actions/cache@v1
-      with:
-        path: /home/runner/work/Python/Python-cache
-        key: ${{ runner.os }}-Python-repos-cache
-
     - name: Mirror the Github organization repos to Gitee.
       # 引用master分支的脚本支持
       uses: evilbutcher/Python@master
@@ -37,13 +30,6 @@ jobs:
         dst_key: ${{ secrets.GITEE_PRIVATE_SSH_KEY }}
         # 创建仓库的API tokens， 用于自动创建不存在的仓库
         dst_token: ${{ secrets.GITEE_PRIVATE_TOKEN }}
-        account_type: user
-        # 指定目录cache
-        cache_path: /github/workspace/Python-cache
-        # 白名单，仅同步白名单中的repos，如“repo1,repo2,repo3”
-        white_list: "hub-mirror-action,spark-example"
-        # 仅同步静态列表，不会再动态获取需同步列表（黑白名单机制依旧生效）
-        static_list: "spark-example"
         # 强制更新
         force_update: true
         # clone方式，使用http、ssh方式进行clone
