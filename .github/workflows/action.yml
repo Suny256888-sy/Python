@@ -17,7 +17,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Hub Mirror Action.
+    - name: Cache phpdragon src repos
+      # 引用发行版的主要版本
+      uses: actions/cache@v1
+      with:
+        path: /home/runner/work/phpdragon/phpdragon-cache
+        key: ${{ runner.os }}-phpdragon-repos-cache
+
+    - name: Mirror the Github organization repos to Gitee.
+      # 引用master分支的脚本支持
       uses: evilbutcher/hub-mirror-action@master
       with:
         #  需要被同步的源端账户名，如github/phpdragon，表示Github的phpdragon账户。
@@ -25,9 +33,13 @@ jobs:
         # 需要同步到的目的端账户名，如gitee/phpdragon，表示Gitee的phpdragon账户。
         dst: gitee/Python
         # 用于目的端上传代码的SSH key，用于上传代码
-        dst_key: ${{ secrets.GITEE_SYNC_key }}
-        dst_token: ${{ secrets.GITEE_SYNC }}
+        dst_key: ${{ secrets.GITEE_PRIVATE_SSH_KEY }}
+        # 创建仓库的API tokens， 用于自动创建不存在的仓库
+        dst_token: ${{ secrets.GITEE_PRIVATE_TOKEN }}
+        account_type: user
+        # 指定目录cache
         # 强制更新
         force_update: true
         # clone方式，使用http、ssh方式进行clone
         clone_style: "ssh"
+        
