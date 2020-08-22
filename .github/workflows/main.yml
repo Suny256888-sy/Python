@@ -1,6 +1,6 @@
 name: Gitee repos mirror periodic sync job
 
-on:
+  # on:
   # push推送时触发
 push:
   # 定时任务触发
