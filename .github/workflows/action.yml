@@ -17,12 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Cache Python src repos
-      uses: actions/cache@v1
-      with:
-        path: /home/runner/work/Python/Python/Python-cache
-        key: ${{ runner.os }}-Python-repos-cache
-
     - name: Mirror the Github organization repos to Gitee.
       uses: evilbutcher/Python@master
       with:
@@ -31,7 +25,7 @@ jobs:
         # 需要同步到的目的端账户名，如gitee/phpdragon，表示Gitee的phpdragon账户。
         dst: gitee/Python
         # 用于目的端上传代码的SSH key，用于上传代码
-        dst_key: ${{ secrets.GITEE_PRIVATE_SSH_KEY }}
+        dst_key: ${{ secrets.GITEE_SYNC }}
         # 强制更新
         force_update: true
         # clone方式，使用http、ssh方式进行clone
