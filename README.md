@@ -9,7 +9,6 @@
 
 #### For Windows:  
 下载最新的文献下载助手小程序.exe。  
-
 #### For Mac OS:  
 因为没有Mac，所以提供了源码，请自行测试，用到的模块有：
 ```python
