@@ -6,6 +6,7 @@
 #### 如果实际使用下载速度太慢推荐"加速器"：[GLaDOS](https://github.com/glados-network/GLaDOS) 邀请码：3JRG4-KSGZJ-8QPXF-8PPOO
 ### 关于如何使用
 请前往[Releases](https://github.com/evilbutcher/Python/releases)  
+
 For Windows:  
 下载最新的文献下载助手小程序.exe。  
 For Mac OS:  
