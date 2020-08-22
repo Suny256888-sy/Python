@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Hub Mirror Action.
-      uses: Yikun/hub-mirror-action@v0.08
+      uses: evilbutcher/hub-mirror-action@master
       with:
         #  需要被同步的源端账户名，如github/phpdragon，表示Github的phpdragon账户。
         src: github/Python
