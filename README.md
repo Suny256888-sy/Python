@@ -36,19 +36,19 @@ from rich.progress import (
 首次运行，会在同级目录生成两个文件夹，一个是articles，用于存储下载的文献，另一个是records，用于存储下载的Web of Science文献记录。
 #### 如何下载Web of Science文献记录
 选中文献后，导出格式中选择html，然后将下载的html文件转存到同级目录的records文件夹中。  
-![Download record](https://gitee.com/evilbutcher/Python/raw/master/ArticlesHelper/How_to_Use/download_record.gif)
+![Download record](https://github.com/evilbutcher/Python/blob/master/ArticlesHelper/How_to_Use/download_record.gif)
 #### 如何解析记录
 如果程序检测到在records中，存在.html格式的文件，就会自动将名称列出来，提示是否进行解析，输入 y 则会执行解析，n 则会返回手动输入doi号下载。
 如果存在records中存在个html文件，可直接输入全称如 savedrecs.html 进行解析，不解析请输入 n 。  
-![Parse record](https://gitee.com/evilbutcher/Python/raw/master/ArticlesHelper/How_to_Use/parse_records.gif)
+![Parse record](https://github.com/evilbutcher/Python/blob/master/ArticlesHelper/How_to_Use/parse_records.gif)
 #### 如何手动下载
 直接输入doi号即可下载，多个doi请用英文逗号“,”进行分割，例如 10.1016/j.snb.2013.07.010,10.1016/j.snb.2010.12.010,10.1039/c5cs00424a。  
-![Download manually](https://gitee.com/evilbutcher/Python/raw/master/ArticlesHelper/How_to_Use/download_manually.gif)
+![Download manually](https://github.com/evilbutcher/Python/blob/master/ArticlesHelper/How_to_Use/download_manually.gif)
 #### 自动检测更新
 如果有更新，软件会自动弹出更新提示，可前往[Releases](https://github.com/evilbutcher/Python/releases)地址进行更新。  
-![Check update](https://gitee.com/evilbutcher/Python/raw/master/ArticlesHelper/How_to_Use/check_update.gif)
+![Check update](https://github.com/evilbutcher/Python/blob/master/ArticlesHelper/How_to_Use/check_update.gif)
 #### 进度条展示
-![Progress](https://gitee.com/evilbutcher/Python/raw/master/ArticlesHelper/How_to_Use/progress.jpg)
+![Progress](https://github.com/evilbutcher/Python/blob/master/ArticlesHelper/How_to_Use/progress.jpg)
 
 ### 现已支持
 1.根据doi进行文献下载和保存  
