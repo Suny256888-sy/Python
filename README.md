@@ -63,3 +63,6 @@ from rich.progress import (
 
 ### 特别感谢：
 [@Rich](https://github.com/willmcgugan/rich)
+
+### 访问量
+![](http://profile-counter.glitch.me/evilbutcher/count.svg)
