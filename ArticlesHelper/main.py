@@ -80,7 +80,7 @@ def parsehtml(name):
 
 def init():
     print('检测更新中...')
-    version = 2.4
+    version = 2.5
     urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/ArticlesHelper/release.json'
     try:
         update = requests.get(urlgithub)
@@ -91,7 +91,7 @@ def init():
             print('更新内容是：' + ver['releases'][0]['details'])
             print('可前往项目地址：https://github.com/evilbutcher/Python 查看Releases')
         else:
-            print('检测更新完成，暂无更新')
+            print('检测更新完成，暂无更新\n')
     except (Exception):
         urlgitee = 'https://gitee.com/evilbutcher/Python/raw/master/ArticlesHelper/release.json'
         try:
@@ -104,10 +104,10 @@ def init():
                 print(
                     '可前往项目地址：https://github.com/evilbutcher/Python 查看Releases')
             else:
-                print('检测更新完成，暂无更新')
+                print('检测更新完成，暂无更新\n')
         except Exception as e:
             print('检测更新失败，原因：')
-            print(str(e))
+            print(str(e) + '\n')
     # 判断目录
     articlespath = Path('articles/')
     recordpath = Path('records/')
@@ -123,17 +123,19 @@ def init():
                 for file in files:
                     if re.search(r'.html', file):
                         waitparse.append(file)
-                        print('\n发现[bold yellow]待解析[/bold yellow]文件：' +
+                        print('发现[bold yellow]待解析[/bold yellow]文件：' +
                               os.path.join(file))
                         isexist = True
         if isexist is True:
             if len(waitparse) == 1:
-                go = input('\n是否尝试进行解析？(请输入y/n)')
+                print('是否尝试进行解析？')
+                go = input('(解析请输入y/否则请输入n)')
                 if go == 'y':
                     name = waitparse[0]
                     parsehtml(name)
             else:
-                name = input('\n是否尝试解析？(请输入要解析的文件名称；不解析请输入n)')
+                print('是否尝试解析？')
+                name = input('(请输入要解析的文件名称；不解析请输入n)')
                 if name == 'n':
                     return
                 else:
@@ -363,6 +365,47 @@ def checkdownload(dois):
         print('检查下载情况出错啦，原因：' + str(e))
 
 
+def precheck(dois):
+    print('\n检查文献记录文件夹...')
+    try:
+        redownload = []
+        dldois = []
+        articlespath = Path('articles/')
+        for root, dirs, files in os.walk(articlespath):
+            if len(files) == 0:
+                print('输入的DOI均未下载')
+                return dois
+            else:
+                for file in files:
+                    dldoi = file.replace('_', '/').replace('.pdf', '')
+                    dldois.append(dldoi)
+                for doi in dois:
+                    if (doi in dldois) is False:
+                        redownload.append(doi)
+                if len(redownload) != 0:
+                    if len(redownload) == len(dois):
+                        print('未检测到输入的DOI')
+                        return redownload
+                    else:
+                        print('检测到部分DOI已下载，是否[bold red]忽略已下载[/bold red]的部分？')
+                        dlall = input('(忽略请输入y/否则请输入n)')
+                        if dlall == "n":
+                            return dois
+                        else:
+                            return redownload
+                else:
+                    print(
+                        '检测到DOI已[bold red]全部下载[/bold red]，是否[bold red]重新[/bold red]下载？'
+                    )
+                    dlall = input('(重新下载请输入y/否则请输入n)')
+                    if dlall == "y":
+                        return dois
+                    else:
+                        return False
+    except Exception as e:
+        print('检查下载情况出错啦，原因：' + str(e))
+
+
 if __name__ == "__main__":
     console = Console()
     print('特别感谢Rich项目 https://github.com/willmcgugan/rich')
@@ -373,16 +416,20 @@ if __name__ == "__main__":
         print('\n若为多篇文献请用[bold red]英文逗号[/bold red]分隔')
         doi = input('请输入DOI：')
         dois = list(doi.split(','))
-    print('\n开始下载...')
-    print('\n[bold yellow]说明[/bold yellow]：提示文献未找到，只是一个接口未找到，会自动更换接口获取下载地址')
-    print('\ndoi为：')
-    print(dois)
-    urls = {}
-    for index, value in enumerate(dois):
-        filename = value.replace('/', '_') + '.pdf'
-        continuousgetlink(filename, value, index)
-    print('\n匹配下载链接[bold green]完成[/bold green]，None表示未能获取下载地址')
-    print(urls)
-    download(urls, './articles/')
-    checkdownload(dois)
+    dois = precheck(dois)
+    if dois is not False:
+        print('\n开始下载...')
+        print('[bold yellow]说明[/bold yellow]：提示文献未找到，只是一个接口未找到，会自动更换接口获取下载地址')
+        print('doi为：')
+        print(dois)
+        urls = {}
+        for index, value in enumerate(dois):
+            filename = value.replace('/', '_') + '.pdf'
+            continuousgetlink(filename, value, index)
+        print('\n匹配下载链接[bold green]完成[/bold green]，None表示未能获取下载地址')
+        print(urls)
+        download(urls, './articles/')
+        checkdownload(dois)
+    else:
+        print('\n文献下载已结束')
     input('如有问题请前往 https://github.com/evilbutcher/Python 提出issue，请按任意键退出')
