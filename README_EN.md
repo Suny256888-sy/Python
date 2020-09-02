@@ -82,6 +82,7 @@ If there is an update, the software will automatically pop up an update prompt, 
 7. Automatic detection of updates
 8. Parsing the Web of Science documentation
 9. Checking of downloads
+10. Pre-check the articles folder
 
 ### Special thanks to
 

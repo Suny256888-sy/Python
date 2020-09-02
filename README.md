@@ -88,6 +88,7 @@ from rich.progress import (
 7. 自动检测更新
 8. 解析 Web of Science 文献记录
 9. 下载情况检查
+10. 预先检查 articles 文件夹
 
 ### 特别感谢：
 
