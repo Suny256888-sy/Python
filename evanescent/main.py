@@ -2,6 +2,7 @@ import os
 import xlrd
 import re
 import pyperclip
+import requests
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill
 from pathlib import Path
@@ -9,6 +10,36 @@ from rich import print
 
 
 def init():
+    print('初始化中，请稍等...')
+    version = 1.1
+    print('此程序版本：' + str(version))
+    try:
+        urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/evanescent/release.json'
+        update = requests.get(urlgithub)
+        ver = update.json()
+        if ver['releases'][0]['version'] > version:
+            print('[bold yellow]更新[/bold yellow]啦！从GitHub获取更新详情成功！\n最新版本是：' +
+                  str(ver['releases'][0]['version']))
+            print('更新内容是：' + ver['releases'][0]['details'])
+            print('可前往项目地址：https://github.com/evilbutcher/Python 查看Releases\n')
+        else:
+            print('检测更新完成，暂无更新\n')
+    except (Exception):
+        urlgitee = 'https://gitee.com/evilbutcher/Python/raw/master/evanescent/release.json'
+        try:
+            update = requests.get(urlgitee)
+            ver = update.json()
+            if ver['releases'][0]['version'] > version:
+                print('[bold red]更新[/bold red]啦！从Gitee获取更新详情成功！\n最新版本是：' +
+                      str(ver['releases'][0]['version']))
+                print('更新内容是：' + ver['releases'][0]['details'])
+                print(
+                    '可前往项目地址：https://github.com/evilbutcher/Python 查看Releases\n')
+            else:
+                print('检测更新完成，暂无更新\n')
+        except Exception as e:
+            print('检测更新失败，原因：')
+            print(str(e) + '\n')
     try:
         path = Path('origindata/')
         if path.is_dir() is False:
