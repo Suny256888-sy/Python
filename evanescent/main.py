@@ -2,7 +2,8 @@ import os
 import xlrd
 import re
 import pyperclip
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
+from openpyxl.styles import PatternFill
 from pathlib import Path
 from rich import print
 
@@ -80,9 +81,31 @@ def dealxlsx(path: str, name: str, canprint: bool):
                             str(col + 1) + '列' + str(num + 1) + '行' + '写入数据：' +
                             str(float(valueforall)) + '\n')
         wb.save("result.xlsx")
-        print('[bold green]处理完成[/bold green]')
+        print('[bold green]数据处理完成[/bold green]')
     except Exception as e:
         print('处理excel[bold red]失败[/bold red]，原因：' + str(e))
+
+
+def setcolor():
+    wb = load_workbook(r'result.xlsx')
+    sheetnames = wb.sheetnames
+    ws = wb[sheetnames[0]]
+    rows = ws.max_row
+    columns = ws.max_column
+    color = 'FF6666'
+    fille = PatternFill('solid', fgColor=color)
+    num = int(input('请输入本次实验的平行实验次数：'))
+    waittocolor = []
+    startnum = 1
+    for m in range(0, num):
+        startnum = startnum + 1
+        waittocolor.append(startnum)
+    for i in waittocolor:
+        for l in range(i, columns + 1, num * 2):
+            for j in range(1, rows + 1):
+                ws.cell(j, l).fill = fille
+    wb.save(r'result.xlsx')
+    print('着色区分完成')
 
 
 def main():
@@ -103,6 +126,7 @@ def main():
                     dealxlsx('origindata/', namewithsuffix3, canprint)
         else:
             dealxlsx('origindata/', name, canprint)
+        setcolor()
         input('如有问题请前往 https://github.com/evilbutcher/Python 提出issue，请按任意键退出')
     except Exception as e:
         print('主函数运行[bold red]出现错误[/bold red]，原因：' + str(e))
