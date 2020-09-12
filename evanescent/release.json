@@ -1,5 +1,6 @@
 {
   "releases": [
+    { "version": 1.2, "details": "增加更新检测" },
     { "version": 1.1, "details": "优化着色分组" },
     { "version": 1.0, "details": "实现基线拉平" }
   ]

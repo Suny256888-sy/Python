@@ -11,7 +11,7 @@ from rich import print
 
 def init():
     print('初始化中，请稍等...')
-    version = 1.1
+    version = 1.2
     print('此程序版本：' + str(version))
     try:
         urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/evanescent/release.json'
@@ -21,7 +21,7 @@ def init():
             print('[bold yellow]更新[/bold yellow]啦！从GitHub获取更新详情成功！\n最新版本是：' +
                   str(ver['releases'][0]['version']))
             print('更新内容是：' + ver['releases'][0]['details'])
-            print('可前往项目地址：https://github.com/evilbutcher/Python 查看Releases\n')
+            print('可前往：https://github.com/evilbutcher/Python 查看Releases\n')
         else:
             print('检测更新完成，暂无更新\n')
     except (Exception):
@@ -33,8 +33,7 @@ def init():
                 print('[bold red]更新[/bold red]啦！从Gitee获取更新详情成功！\n最新版本是：' +
                       str(ver['releases'][0]['version']))
                 print('更新内容是：' + ver['releases'][0]['details'])
-                print(
-                    '可前往项目地址：https://github.com/evilbutcher/Python 查看Releases\n')
+                print('可前往：https://github.com/evilbutcher/Python 查看Releases\n')
             else:
                 print('检测更新完成，暂无更新\n')
         except Exception as e:
@@ -132,9 +131,9 @@ def setcolor():
         startnum = startnum + 1
         waittocolor.append(startnum)
     for i in waittocolor:
-        for l in range(i, columns + 1, num * 2):
+        for k in range(i, columns + 1, num * 2):
             for j in range(1, rows + 1):
-                ws.cell(j, l).fill = fille
+                ws.cell(j, k).fill = fille
     wb.save(r'result.xlsx')
     print('着色区分完成')
 
