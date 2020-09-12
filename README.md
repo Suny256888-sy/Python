@@ -90,6 +90,10 @@ from rich.progress import (
 9. 下载情况检查
 10. 预先检查 articles 文件夹
 
+# [基线拉平小程序](https://github.com/evilbutcher/Python/blob/master/evanescent)
+
+处理实验数据自用
+
 ### 特别感谢：
 
 [@Rich](https://github.com/willmcgugan/rich)

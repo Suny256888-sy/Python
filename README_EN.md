@@ -84,6 +84,10 @@ If there is an update, the software will automatically pop up an update prompt, 
 9. Checking of downloads
 10. Pre-check the articles folder
 
+# [Baseline Alignment](https://github.com/evilbutcher/Python/blob/master/evanescent)
+
+Processing experimental data for personal use
+
 ### Special thanks to
 
 [@Rich](https://github.com/willmcgugan/rich)
