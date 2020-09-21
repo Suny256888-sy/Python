@@ -11,7 +11,7 @@ from rich import print
 
 def init():
     print('初始化中，请稍等...')
-    version = 1.3
+    version = 1.4
     print('此程序版本：' + str(version))
     try:
         urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/evanescent/release.json'
