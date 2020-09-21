@@ -11,7 +11,7 @@ from rich import print
 
 def init():
     print('初始化中，请稍等...')
-    version = 1.2
+    version = 1.3
     print('此程序版本：' + str(version))
     try:
         urlgithub = 'https://raw.githubusercontent.com/evilbutcher/Python/master/evanescent/release.json'
@@ -93,8 +93,14 @@ def dealxlsx(path: str, name: str, canprint: bool):
                         print(
                             str(col + 1) + '列' + str(num + 1) + '行' + '读取数据：' +
                             str(sheet.cell(num, col).value))
-                    result.cell(num + 1, col +
-                                1).value = sheet.cell(num, col).value - minus
+                    if isinstance(sheet.cell(num, col).value, float) is True:
+                        result.cell(
+                            num + 1,
+                            col + 1).value = sheet.cell(num, col).value - minus
+                    else:
+                        result.cell(
+                            num + 1, col +
+                            1).value = sheet.cell(num - 1, col).value - minus
                     if canprint is True:
                         print(
                             str(col + 1) + '列' + str(num + 1) + '行' + '写入数据：' +
@@ -160,6 +166,7 @@ def main():
         input('如有问题请前往 https://github.com/evilbutcher/Python 提出issue，请按任意键退出')
     except Exception as e:
         print('主函数运行[bold red]出现错误[/bold red]，原因：' + str(e))
+        input('如有问题请前往 https://github.com/evilbutcher/Python 提出issue，请按任意键退出')
 
 
 if __name__ == "__main__":
