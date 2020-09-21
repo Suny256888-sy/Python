@@ -100,7 +100,7 @@ def dealxlsx(path: str, name: str, canprint: bool):
                     else:
                         print(
                             str(col) + '列' + str(num + 1) +
-                            '行 读取数据出现[bold red]错误[/bold red]，请检查相应位置，此次选用上一个位置的数值')
+                            '行 读取数据[bold red]错误[/bold red]，请检查相应位置，此处选用上一个数值')
                         if isinstance(sheet.cell(num - 1, col).value,
                                       float) is True:
                             result.cell(num + 1, col + 1).value = sheet.cell(
@@ -108,7 +108,7 @@ def dealxlsx(path: str, name: str, canprint: bool):
                         else:
                             print(
                                 str(col) + '列' + str(num + 1) +
-                                '行 读取数据出现[bold red]连续错误[/bold red]，请检查相应位置')
+                                '行 读取数据出现[bold red]连续错误[/bold red]，请检查数据完整性')
                             return
                     if canprint is True:
                         print(
@@ -171,7 +171,7 @@ def main():
                     dealxlsx('origindata/', namewithsuffix3, canprint)
         else:
             dealxlsx('origindata/', name, canprint)
-        exist = Path('origindata/result.xlsx')
+        exist = Path('result.xlsx')
         if exist.is_file() is True:
             setcolor()
         input('如有问题请前往 https://github.com/evilbutcher/Python 提出issue，请按任意键退出')
