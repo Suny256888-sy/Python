@@ -98,9 +98,18 @@ def dealxlsx(path: str, name: str, canprint: bool):
                             num + 1,
                             col + 1).value = sheet.cell(num, col).value - minus
                     else:
-                        result.cell(
-                            num + 1, col +
-                            1).value = sheet.cell(num - 1, col).value - minus
+                        print(
+                            str(col) + '列' + str(num + 1) +
+                            '行 读取数据出现[bold red]错误[/bold red]，请检查相应位置，此次选用上一个位置的数值')
+                        if isinstance(sheet.cell(num - 1, col).value,
+                                      float) is True:
+                            result.cell(num + 1, col + 1).value = sheet.cell(
+                                num - 1, col).value - minus
+                        else:
+                            print(
+                                str(col) + '列' + str(num + 1) +
+                                '行 读取数据出现[bold red]连续错误[/bold red]，请检查相应位置')
+                            return
                     if canprint is True:
                         print(
                             str(col + 1) + '列' + str(num + 1) + '行' + '写入数据：' +
@@ -162,7 +171,9 @@ def main():
                     dealxlsx('origindata/', namewithsuffix3, canprint)
         else:
             dealxlsx('origindata/', name, canprint)
-        setcolor()
+        exist = Path('origindata/result.xlsx')
+        if exist.is_file() is True:
+            setcolor()
         input('如有问题请前往 https://github.com/evilbutcher/Python 提出issue，请按任意键退出')
     except Exception as e:
         print('主函数运行[bold red]出现错误[/bold red]，原因：' + str(e))
